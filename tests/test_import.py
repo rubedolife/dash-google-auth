@@ -22,7 +22,9 @@ def test_init(app):
     """Test initialisation."""
 
     authorized_emails = ['joshbode@fastmail.com']
-    auth = GoogleOAuth(app, authorized_emails)
+    authorized_domains = []
+    auth = GoogleOAuth(app, authorized_emails, authorized_domains)
 
     assert auth.app is app
     assert auth.authorized_emails == authorized_emails
+    assert auth.authorized_domains == authorized_domains

@@ -14,7 +14,7 @@ from .auth import Auth
 
 
 class GoogleOAuth(Auth):
-    def __init__(self, app, authorized_emails, additional_scopes=None):
+    def __init__(self, app, authorized_emails, authorized_domains, additional_scopes=None):
         super(GoogleOAuth, self).__init__(app)
         google_bp = make_google_blueprint(
             scope=[
@@ -26,6 +26,7 @@ class GoogleOAuth(Auth):
         )
         app.server.register_blueprint(google_bp, url_prefix="/login")
         self.authorized_emails = authorized_emails
+        self.authorized_domains = authorized_domains
 
     def is_authorized(self):
         if not google.authorized:
@@ -39,9 +40,14 @@ class GoogleOAuth(Auth):
         if email in self.authorized_emails:
             # send to index
             return True
-        else:
-            # unauthorized email
-            return abort(403)
+
+        for domain in self.authorized_domains:
+            suffix = "@" + domain
+            if email.endswith(suffix):
+                return True
+
+        # unauthorized email
+        return abort(403)
 
     def login_request(self):
         # send to google auth page

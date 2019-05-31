@@ -60,6 +60,10 @@ Steps to try this out yourself:
    Google emails you want to grant access to your app. In production, I'd
    recommend getting these from a database instead.
 
+   If you have a hosted zone (your own domain) within gsuite, you can alternatively use
+   `authorized_domains` instead of `authorized_emails`.  A user will be granted access
+   if they are in `either` `authorized_emails` or in a domain in `authorized_domains`.
+
 5. Run `python app.py` and open [localhost](http://localhost:8050/) in a
    browser window to try it out! If the app loads automatically without
    prompting a Google login, that means you're already authenticated -- try

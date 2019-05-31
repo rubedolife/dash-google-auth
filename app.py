@@ -37,9 +37,14 @@ authorized_emails = [
     "1234@example.com",
 ]
 
+authorized_domains = [
+    "mydomain.com",
+]
+
 auth = GoogleOAuth(
     app,
     authorized_emails,
+    authorized_domains,
 )
 
 
